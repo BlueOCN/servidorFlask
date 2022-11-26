@@ -1,0 +1,26 @@
+
+/// Tu run:
+mkdir mlserver                  // Crea una carpeta para el servidor
+dir                             // Muestra el contenido de la carpeta actual
+cd mlserver                     // Entrar a la carpeta del servidor
+python3 -m venv venv            // Crear una máquina virtual de python3
+. venv/bin/activate             // Activar la máquina virtual de python3
+
+pip3 install Flask              // Instalar Flask
+pip3 install joblib             // Instalar joblib (exporta e importa modelos ml)
+pip3 install sklearn            // Instalar sklearn
+pip3 install scikit-learn       // Instalar scikit-learn
+sudo yum install git            // Instalar github
+
+git clone https://github.com/vsosahdz/servidorFlask.git         // Clonar servidorFlask desde un repositorio
+mv ./servidorFlask/modelo.joblib ./                             // Mover modelo ML a la carpeta del servidor Flask
+
+vim server.py                   // Programar servidor Flask
+mkdir templates                 // Crear carpeta templates
+cd templates/                   // Entrar a la carpeta templates
+touch pagina.html               // Crear una archivo html
+vim pagina.html                 // Programar página html
+python3 server.py               // Correr servidor
+
+
+
