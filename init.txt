@@ -10,11 +10,11 @@ pip3 install Flask              // Instalar Flask
 pip3 install joblib             // Instalar joblib (exporta e importa modelos ml)
 pip3 install sklearn            // Instalar sklearn
 pip3 install scikit-learn       // Instalar scikit-learn
-pip3 install requests
-pip3 install json
+pip3 install requests           // Instalar requests
+pip3 install pandas             // pasdasdas
 sudo yum install git            // Instalar github
 
-git clone https://github.com/vsosahdz/servidorFlask.git         // Clonar servidorFlask desde un repositorio
+git clone https://github.com/BlueOCN/servidorFlask.git          // Clonar servidorFlask desde un repositorio
 mv ./servidorFlask/modelo.joblib ./                             // Mover modelo ML a la carpeta del servidor Flask
 
 vim server.py                   // Programar servidor Flask
@@ -22,6 +22,7 @@ mkdir templates                 // Crear carpeta templates
 cd templates/                   // Entrar a la carpeta templates
 touch pagina.html               // Crear una archivo html
 vim pagina.html                 // Programar página html
+cd ..                           // Salir de la carpeta templates
 python3 server.py               // Correr servidor
 
 
