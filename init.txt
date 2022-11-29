@@ -10,6 +10,8 @@ pip3 install Flask              // Instalar Flask
 pip3 install joblib             // Instalar joblib (exporta e importa modelos ml)
 pip3 install sklearn            // Instalar sklearn
 pip3 install scikit-learn       // Instalar scikit-learn
+pip3 install requests
+pip3 install json
 sudo yum install git            // Instalar github
 
 git clone https://github.com/vsosahdz/servidorFlask.git         // Clonar servidorFlask desde un repositorio
