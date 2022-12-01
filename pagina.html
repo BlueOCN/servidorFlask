@@ -8,10 +8,10 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     </head>
     <body>
-        <div class="container">
+        <div id="formDiv" class="container">
             <h1>Diabetes Calculator</h1>
-            <p1>Enter the data and find out.</p1>
-            <form method="post" action="/prediccion">
+            <p>Enter the data and find out.</p>
+            <form id="form" method="post" action="/prediccion">
                 <div class="mb-3">
                     <label for="Pregnancies" class="form-label">Pregnancies</label>
                     <input type="text" class="form-control" id="Pregnancies" name="Pregnancies">                    
@@ -44,20 +44,184 @@
                     <label for="Age" class="form-label">Age</label>
                     <input type="text" class="form-control" id="Age" name="Age">
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button id="buttonSubmit" type="submit" class="btn btn-primary">Enviar</button>
             </form>
         </div>
-        <div class="container">
-            <h1>Diabetes File Calculator</h1>
-            <p1>Enter the data on a file and find out.</p1>
-            <form action = "/modeloFile" method = "POST" enctype = "multipart/form-data">
+        <div id="createFormDiv" class="container">
+            <h1>Agregar Registro</h1>
+            <p>Enter the data and register new data.</p>
+            <form id="createForm" method="post" action="http://localhost:8080/Base/crearRegistro">
                 <div class="mb-3">
-                    <label for="file" class="form-label">Archivo</label>
-                    <input type = "file" class="form-control" name = "file" id="file" />                    
-                </div>                
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                    <label for="createPregnancies" class="form-label">Pregnancies</label>
+                    <input type="text" class="form-control" id="createPregnancies" name="Pregnancies">
+                </div>
+                <div class="mb-3">
+                    <label for="createGlucose" class="form-label">Glucose</label>
+                    <input type="text" class="form-control" id="createGlucose" name="Glucose">
+                </div>
+                <div class="mb-3">
+                    <label for="createBloodPressure" class="form-label">BloodPressure</label>
+                    <input type="text" class="form-control" id="createBloodPressure" name="BloodPressure">
+                </div>
+                <div class="mb-3">
+                    <label for="createSkinThickness" class="form-label">SkinThickness</label>
+                    <input type="text" class="form-control" id="createSkinThickness" name="SkinThickness">
+                </div>
+                <div class="mb-3">
+                    <label for="createInsulin" class="form-label">Insulin</label>
+                    <input type="text" class="form-control" id="createInsulin" name="Insulin">
+                </div>
+                <div class="mb-3">
+                    <label for="createBMI" class="form-label">BMI</label>
+                    <input type="text" class="form-control" id="createBMI" name="BMI">
+                </div>
+                <div class="mb-3">
+                    <label for="createDiabetesPedigreeFunction" class="form-label">DiabetesPedigreeFunction</label>
+                    <input type="text" class="form-control" id="createDiabetesPedigreeFunction" name="DiabetesPedigreeFunction">
+                </div>
+                <div class="mb-3">
+                    <label for="createAge" class="form-label">Age</label>
+                    <input type="text" class="form-control" id="createAge" name="Age">
+                </div>
+                <div class="mb-3">
+                    <label for="createOutcome" class="form-label">Outcome</label>
+                    <input type="text" class="form-control" id="createOutcome" name="Outcome">
+                </div>
+                <button id="buttonCreate" type="submit" class="btn btn-primary">Crear Registro</button>
+                <button id="buttonReentrenar" type="submit" class="btn btn-primary">Reentrenar</button>
             </form>
+        </div>
+        <div id="resultDiv" class="container" style="display: none">
+            <h1>Result</h1>
+            <p id="result"></p>
+            <button id="buttonBack" class="btn btn-primary">Back</button>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>                
     </body>
 </html>
+<script>
+    let btn = document.getElementById("buttonSubmit");
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        let pregnancies = document.getElementById("Pregnancies");
+        let glucose = document.getElementById("Glucose");
+        let bloodPressure = document.getElementById("BloodPressure");
+        let skinThickness = document.getElementById("SkinThickness");
+        let insulin = document.getElementById("Insulin");
+        let bmi = document.getElementById("BMI");
+        let diabetesPedigreeFunction = document.getElementById("DiabetesPedigreeFunction");
+        let age = document.getElementById("Age");
+        if (pregnancies.value === "" || glucose.value === "" || bloodPressure.value === "" || skinThickness.value === "" || insulin.value === "" || bmi.value === "" || diabetesPedigreeFunction.value === "" || age.value === "") {
+            alert("Todos los campos son obligatorios");
+        } else {
+            const data = JSON.stringify({
+                Pregnancies: pregnancies.value,
+                Glucose: glucose.value,
+                BloodPressure: bloodPressure.value,
+                SkinThickness: skinThickness.value,
+                Insulin: insulin.value,
+                BMI: bmi.value,
+                DiabetesPedigreeFunction: diabetesPedigreeFunction.value,
+                Age: age.value
+            });
+            fetch('/prediccion',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                if (result){
+                    let formDiv = document.getElementById("formDiv");
+                    formDiv.style.display = "none";
+                    let createFormDiv = document.getElementById("createFormDiv");
+                    createFormDiv.style.display = "none";
+                    let resultDiv = document.getElementById("resultDiv");
+                    resultDiv.style.display = "block";
+                    let resultP = document.getElementById("result");
+                    resultP.innerHTML = 'Resultado: ' + result["Resultado"];
+                }else{
+                    console.error("Result unsuccessful");
+                }
+            })
+            .catch((error) => {
+                console.error("Error: ", error);
+            });
+        }
+    });
+    let btnBack = document.getElementById("buttonBack");
+    btnBack.addEventListener('click', function (e) {
+        e.preventDefault();
+        let form = document.getElementById("form");
+        form.reset();
+        let createForm = document.getElementById("createForm");
+        createForm.reset();
+        let formDiv = document.getElementById("formDiv");
+        formDiv.style.display = "block";
+        let createFormDiv = document.getElementById("createFormDiv");
+        createFormDiv.style.display = "block";
+        let resultDiv = document.getElementById("resultDiv");
+        resultDiv.style.display = "none";
+    });
+    let btnCreate = document.getElementById("buttonCreate");
+    btnCreate.addEventListener('click', function (e){
+        e.preventDefault();
+        let pregnancies = document.getElementById("createPregnancies");
+        let glucose = document.getElementById("createGlucose");
+        let bloodPressure = document.getElementById("createBloodPressure");
+        let skinThickness = document.getElementById("createSkinThickness");
+        let insulin = document.getElementById("createInsulin");
+        let bmi = document.getElementById("createBMI");
+        let diabetesPedigreeFunction = document.getElementById("createDiabetesPedigreeFunction");
+        let age = document.getElementById("createAge");
+        let outcome = document.getElementById("createOutcome");
+        if (pregnancies.value === "" || glucose.value === "" || bloodPressure.value === "" || skinThickness.value === "" || insulin.value === "" || bmi.value === "" || diabetesPedigreeFunction.value === "" || age.value === "" || outcome.value === "") {
+            alert("Todos los campos son obligatorios");
+        } else {
+            const data = JSON.stringify({
+                pregnancies: pregnancies.value,
+                glucose: glucose.value,
+                bloodpressure: bloodPressure.value,
+                skinthickness: skinThickness.value,
+                insulin: insulin.value,
+                bmi: bmi.value,
+                diabetespedigree: diabetesPedigreeFunction.value,
+                age: age.value,
+                outcome: outcome.value
+            });
+            fetch('http://34.224.89.61:8080/Base/crearRegistro',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                alert("Registro creado\n" + result);
+            })
+            .catch((error) => {
+                alert("Registro creado");
+            });
+        }
+    });
+    let btnReentrenar = document.getElementById("buttonReentrenar");
+    btnReentrenar.addEventListener('click', function (e){
+        e.preventDefault();
+        fetch('/reEntrenar',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then((result) => {
+            alert("Modelo reentrenado\n" + result);
+        })
+        .catch((error) => {
+            console.error("Error: ", error);
+        });
+    });
+</script>

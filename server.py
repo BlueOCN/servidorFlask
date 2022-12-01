@@ -134,7 +134,8 @@ def reEntrenar():
 @servidorWeb.route('/prediccion', methods=['POST'])
 def prediccion():
     #Procesar datos de entrada 
-    contenido = request.form
+    contenido = request.get_json()
+    print(contenido) #pas
     
     datosEntrada = np.array([
             contenido['Pregnancies'],
